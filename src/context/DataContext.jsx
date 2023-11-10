@@ -34,23 +34,28 @@ export default function DataProvider({ children }) {
 
   function update_quantity(id, action) {
     setCart((prev) => {
-      const updated_value = [...prev];
-      updated_value.forEach((item) => {
+      let updated_value = [...prev];
+      for (let item of prev){
         if (item.id === id) {
-          if (action === "inc") item.quantity++;
-          if (action === "dec") item.quantity--;
-          if (item.quantity <= 0) {
-            removefromcart(item.id);
+          if (action === "inc") {
+            item.quantity++;
+          }
+          if (action === "dec"){
+            item.quantity--;
           }
         }
-      });
+      };
+      console.log()
+      updated_value = updated_value.filter(item => item.quantity > 0) // to remove any item with zero quantity
       return updated_value;
     });
   }
 
   function removefromcart(id) {
     setCart((prev) => {
-      return prev.filter((item) => item.id !== id);
+      return prev.filter((item) => {
+        return item.id !== id
+      });
     });
   }
 
